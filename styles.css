@@ -518,6 +518,7 @@ body {
 /* Mobile (480px - 767px) */
 @media (max-width: 767px) and (min-width: 480px) {
   /* Font Size Reductions */
+  
   .intro-text {
     font-size: 1.4rem;
   }
@@ -577,26 +578,64 @@ body {
     padding: 1.3rem;
   }
 }
-
+ 
 /* Small Mobile (320px - 479px) */
 @media (max-width: 479px) {
   /* Font Size Reductions */
-  .intro-text {
-    font-size: 1.2rem;
-  }
+  /* Text Elements */
+.intro-text {
+  font-size: 1.8rem;
+}
+
+.logo {
+  width: 140px;
+}
+
+.location {
+  font-size: 0.95rem;
+}
+
   
   .point-content {
-    font-size: 1.3rem;
-  }
-  
-  .projects-header h2 {
     font-size: 1.5rem;
   }
+
   
-  .project-text {
-    font-size: 0.8rem;
-  }
-  
+.projects-section {
+  background-color: #ffffff;
+  color: #1e1e1e;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2rem;
+}
+
+.projects-header h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-left: 2rem;
+}
+
+.project-image {
+  width: 100%;      /* full width of card */
+  height: 80%;      /* take 70% of card height */
+}
+
+.project-text {
+  height: 20%;       /* remaining height */
+  font-size: 1rem;
+}
+
+.carousel-controls {
+  gap: 2rem;
+  margin-top: 1rem; 
+}
+
+.carousel-arrow {
+  font-size: 2rem;
+}
+
   .message-me {
     font-size: 1.5rem;
   }
@@ -613,35 +652,50 @@ body {
     font-size: 0.9rem;
   }
   
-  .card-heading {
-    font-size: 1.1rem;
-  }
-  
-  .card-details {
-    font-size: 0.8rem;
-  }
-  
-  .card-price {
-    font-size: 0.95rem;
-  }
-  
-  .location {
-    font-size: 0.9rem;
-  }
+  /* Packages Section */
+.packages-section {
+  background-color: #fff;
+  color: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  flex-direction: column;
+}
+
+.cards-container {
+
+  gap: 1rem;
+}
+
+/* Individual Card */
+.card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-heading {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.card-details {
+  font-size: 0.75rem;
+  line-height: 1.25;
+  margin-bottom: 0.5rem;
+}
+
+.card-price {
+  font-size: 1rem;
+}
   
   /* Card Size Reductions */
   .project-card {
-    min-width: 240px;
-    height: 240px;
-  }
-  
-  .cards-container {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  
-  .card {
-    padding: 1rem;
+    min-width: 275px;
+    height: 275px;
   }
   
   /* Layout Adjustments */

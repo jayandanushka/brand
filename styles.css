@@ -451,6 +451,72 @@ body {
 }
 /* ===== RESPONSIVE MEDIA QUERIES - 3 BREAKPOINTS ===== */
 
+
+/* ===== Laptop (1024px - 1439px) ===== */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  /* Typography */
+  .intro-text {
+    font-size: 1.9rem;
+  }
+
+  .point-content {
+    font-size: 2.2rem;
+  }
+
+  
+.projects-header h2 {
+  font-size: 2.25rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-left: 2.5rem;
+}
+
+  .projects-carousel {
+    padding-top: 2rem;  /* less space above cards */
+    padding-bottom: 2rem;
+  }
+  
+
+  .project-text {
+    font-size: 1.1rem;
+  }
+
+  .message-me {
+    font-size: 2.5rem;
+  }
+
+  .message-me strong {
+    font-size: 4.2rem;
+  }
+
+  .hire-title {
+    font-size: 2.2rem;
+  }
+
+  .hire-description {
+    font-size: 1.15rem;
+  }
+
+  .card-heading {
+    font-size: 1.4rem;
+  }
+
+  .card-details {
+    font-size: 0.95rem;
+  }
+
+  .card-price {
+    font-size: 1.2rem;
+  }
+
+  /* Project Card Resizing */
+  .project-card {
+    min-width: 360px;
+    height: 360px;
+  }
+
+}
+
 /* Tablet (768px - 1023px) */
 @media (max-width: 1023px) and (min-width: 768px) {
   /* Font Size Reductions */
@@ -514,69 +580,6 @@ body {
   }
 }
 
-/* Mobile (480px - 767px) */
-@media (max-width: 767px) and (min-width: 480px) {
-  /* Font Size Reductions */
-  
-  .intro-text {
-    font-size: 1.4rem;
-  }
-  
-  .point-content {
-    font-size: 1.6rem;
-  }
-  
-  .projects-header h2 {
-    font-size: 1.8rem;
-  }
-  
-  .project-text {
-    font-size: 0.9rem;
-  }
-  
-  .message-me {
-    font-size: 1.8rem;
-  }
-  
-  .message-me strong {
-    font-size: 3rem;
-  }
-  
-  .hire-title {
-    font-size: 1.8rem;
-  }
-  
-  .hire-description {
-    font-size: 1rem;
-  }
-  
-  .card-heading {
-    font-size: 1.2rem;
-  }
-  
-  .card-details {
-    font-size: 0.85rem;
-  }
-  
-  .card-price {
-    font-size: 1rem;
-  }
-  
-  /* Card Size Reductions */
-  .project-card {
-    min-width: 280px;
-    height: 280px;
-  }
-  
-  .cards-container {
-    grid-template-columns: 1fr;
-    gap: 1.2rem;
-  }
-  
-  .card {
-    padding: 1.3rem;
-  }
-}
  
 /* Small Mobile (320px - 479px) */
 @media (max-width: 479px) {
@@ -672,7 +675,7 @@ body {
   background-color: #ffffff;
   border-radius: 16px;
   padding: 1rem;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .card-heading {

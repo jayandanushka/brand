@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="Jayan | Brand Designer portfolio showcasing modern design and branding projects." />
+  <title>Jayan | Brand Designer</title>
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  integrity="sha512-jr5P5TTKg+p6tc5qmqwzk58pyXj7rFey2OZg0z2n0LFU5Rmvk2l2sQ4t+2zbfMS5N2cGgEQNndN9Wy1VP8KH5Q=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Optional Preload -->
+  <!-- <link rel="preload" href="styles.css" as="style" /> -->
+</head>
+
+<body>
+
+  <!-- Home Section -->
+  <section class="section home" aria-label="Introduction">
+    <div class="container">
+      <p class="intro-text">Hello, I am</p>
+
+      <img 
+        src="Logo-02.svg" 
+        alt="Jayan's logo" 
+        class="logo" 
+        loading="lazy" 
+        decoding="async" 
+      />
+
+      <p class="location">Colombo, Sri Lanka</p>
+
+      <div 
+        class="arrow" 
+        id="scrollArrow" 
+        role="button" 
+        aria-label="Scroll down" 
+        tabindex="0"
+      >↓</div>
+    </div>
+  </section>
+
+  <!-- Point Section -->
+  <section id="point" class="section point-section">
+    <h1 class="point-content">
+      Level up your<br />
+      Service or Product<br />
+      <strong>look better,</strong>
+      <strong>sell more,</strong>
+      <strong>grow faster.</strong>
+    </h1>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="section projects-section">
+    <div class="projects-header">
+      <h2>Projects</h2>
+    </div>
+
+    <div class="projects-carousel-wrapper">
+      <div class="projects-carousel" id="carousel">
+
+        <!-- Project Cards -->
+        <div class="project-card">
+          <img src="V1.jpg" alt="Project 1 Image" class="project-image" />
+          <div class="project-text">Choloate</div>
+        </div>
+        <div class="project-card">
+          <img src="V2.jpg" alt="Project 1 Image" class="project-image" />
+          <div class="project-text">Hijab</div>
+        </div>
+        <div class="project-card">
+          <img src="V3.jpg" alt="Project 1 Image" class="project-image" />
+          <div class="project-text">Cake</div>
+        </div>
+        <div class="project-card">
+          <img src="V4.jpg" alt="Project 1 Image" class="project-image" />
+          <div class="project-text">Bakery</div>
+        </div>
+        <div class="project-card">
+          <img src="V5.jpg" alt="Project 1 Image" class="project-image" />
+          <div class="project-text">Coffe</div>
+        </div>
+        <div class="project-card">
+          <img src="V6.jpg" alt="Project 1 Image" class="project-image" />
+          <div class="project-text">Dogs</div>
+        </div>
+
+      </div>
+
+      <!-- Carousel Controls -->
+      <div class="carousel-controls">
+        <div class="carousel-arrow" id="arrowLeft">←</div>
+        <div class="carousel-arrow" id="arrowRight">→</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Hire Me Section -->
+  <section class="section point-section">
+    <div class="paragraph">
+      <strong class="hire-title">Why You Should <br />Hire Me</strong>
+      <p class="hire-description">
+        Speed. Precision. Creativity.<br />
+        I deliver high-impact design <br />
+        fast without cutting corners.<br />
+        You bring the vision, <br />
+        I bring the fire. Let’s win.
+      </p>
+    </div>
+  </section>
+
+  <!-- Packages Section -->
+  <section id="packages" class="section packages-section">
+    <div class="cards-container">
+
+      <!-- Package Card: Custom -->
+      <div class="card">
+        <h3 class="card-heading">Custom</h3>
+        <p class="card-details">
+          Custom designs like book covers, posters, packaging, signage, etc.<br />
+          Pricing varies by project.
+        </p>
+        <p class="card-price">Up to Rs. 2,000</p>
+      </div>
+
+      <!-- Package Card: Basic Idea -->
+      <div class="card">
+        <h3 class="card-heading">Basic Idea</h3>
+        <p class="card-details">
+          Concept discussion, rough sketches, and creative direction.<br />
+          No final design.
+        </p>
+        <p class="card-price">Up to Rs. 1,000</p>
+      </div>
+
+      <!-- Package Card: Logo Design -->
+      <div class="card">
+        <h3 class="card-heading">Logo Design</h3>
+        <p class="card-details">
+          1 custom logo with color & font selection.<br />
+          Delivered in PNG, JPEG, PDF.
+        </p>
+        <p class="card-price">Up to Rs. 3,000</p>
+      </div>
+
+      <!-- Package Card: Full Branding -->
+      <div class="card">
+        <h3 class="card-heading">Full Branding</h3>
+        <p class="card-details">
+          Logo, colors, fonts, business card, social media kit, source files.<br />
+          Unlimited revisions.
+        </p>
+        <p class="card-price">Up to Rs. 20,000</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="section contact-section">
+    <div class="contact-wrapper">
+
+      <!-- Left Side -->
+      <div class="contact-left">
+        <h2 class="message-me">Message <br /><strong>Me</strong></h2>
+
+        <div class="social-icons">
+          <a href="https://wa.me/94786471826?text=Hello%2C%20I%20am%20interested%21" target="_blank" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          <a href="https://web.facebook.com/profile.php?id=61569496732664" target="_blank" aria-label="Facebook">
+            <i class="fab fa-facebook"></i>
+          </a>
+          <a href="https://www.instagram.com/jayan_bubli/" target="_blank" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>
+
+        <div class="contact-info">
+          <p>jayansite@icloud.com</p>
+          <p>078 647 18 26</p>
+          <p>Colombo, Sri Lanka</p>
+        </div>
+      </div>
+
+      <!-- Right Side -->
+      <div class="contact-right">
+        <form 
+          class="contact-form" 
+          action="https://formsubmit.co/jayansite@icloud.com" 
+          method="POST"
+        >
+          <input type="text" name="name" placeholder="Your name" required />
+          <input type="text" name="contact" placeholder="Email or phone" required />
+          <textarea name="message" placeholder="Your message" rows="10" required></textarea>
+          <button type="submit">Send</button>
+          <input type="hidden" name="_captcha" value="false" />
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Image Modal -->
+  <div id="imageModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage" />
+  </div>
+
+  <!-- JavaScript -->
+  <script src="main.js" defer></script>
+
+</body>
+</html>

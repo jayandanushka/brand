@@ -696,8 +696,8 @@ body {
   
   /* Card Size Reductions */
   .project-card {
-    min-width: 275px;
-    height: 275px;
+    min-width: 70vw;
+    height: 70vw;
   }
   
  /* Contact Section */

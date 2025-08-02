@@ -16,193 +16,214 @@ document.addEventListener('DOMContentLoaded', () => {
   let touchStartX = 0;
   let touchStartTime = 0;
   let isTouchScrolling = false;
+  let animationFrame = null;
 
   // Mobile detection
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-  // Enhanced IntersectionObserver
+  // Performance optimizations
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Optimized IntersectionObserver
   const observerOptions = {
     root: null,
-    threshold: 0.6,
-    rootMargin: '-10% 0px -10% 0px'
+    threshold: [0.3, 0.7], // Multiple thresholds for better detection
+    rootMargin: '-5% 0px -5% 0px'
   };
 
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const index = sections.indexOf(entry.target);
-        if (index !== -1) {
-          currentIndex = index;
-          // Reset scrolling state after intersection
-          setTimeout(() => {
-            isScrolling = false;
-            isTouchScrolling = false;
-          }, 100);
-        }
+    // Process only the most intersecting entry
+    let mostVisible = entries.reduce((prev, current) => 
+      current.intersectionRatio > prev.intersectionRatio ? current : prev
+    );
+
+    if (mostVisible.isIntersecting && mostVisible.intersectionRatio > 0.5) {
+      const index = sections.indexOf(mostVisible.target);
+      if (index !== -1 && index !== currentIndex) {
+        currentIndex = index;
       }
-    });
+    }
   }, observerOptions);
 
   sections.forEach(section => observer.observe(section));
 
-  // Enhanced scroll helper
+  // Optimized scroll helper with RAF
   function scrollToSection(index, force = false) {
     if (index < 0 || index >= sections.length) return;
     if (isScrolling && !force) return;
     
+    // Cancel any existing animation
+    if (animationFrame) {
+      cancelAnimationFrame(animationFrame);
+    }
+    
     isScrolling = true;
     currentIndex = index;
     
-    sections[index].scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
+    // Use requestAnimationFrame for smoother animation
+    animationFrame = requestAnimationFrame(() => {
+      sections[index].scrollIntoView({ 
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        block: 'start'
+      });
     });
 
-    // Reset scrolling state
+    // Shorter timeout for better responsiveness
     setTimeout(() => {
       isScrolling = false;
       isTouchScrolling = false;
-    }, 800);
+      animationFrame = null;
+    }, 600);
   }
 
-  // Improved debounce utility
-  function debounce(fn, delay) {
+  // Lighter debounce with RAF
+  function rafDebounce(fn, delay = 16) {
     let timeout;
+    let rafId;
+    
     return (...args) => {
       clearTimeout(timeout);
-      timeout = setTimeout(() => fn(...args), delay);
+      if (rafId) cancelAnimationFrame(rafId);
+      
+      timeout = setTimeout(() => {
+        rafId = requestAnimationFrame(() => fn(...args));
+      }, delay);
     };
   }
 
-  // Throttle utility for touch events
-  function throttle(fn, delay) {
-    let lastCall = 0;
+  // Optimized throttle for high-frequency events
+  function rafThrottle(fn) {
+    let rafId;
+    let lastArgs;
+    
     return (...args) => {
-      const now = Date.now();
-      if (now - lastCall >= delay) {
-        lastCall = now;
-        fn(...args);
+      lastArgs = args;
+      if (!rafId) {
+        rafId = requestAnimationFrame(() => {
+          fn(...lastArgs);
+          rafId = null;
+        });
       }
     };
   }
 
-  // Enhanced wheel scroll handling
-  const handleWheel = debounce((e) => {
-    if (isScrolling || isTouchScrolling) return;
-    
-    e.preventDefault();
-    const delta = e.deltaY;
-    
-    if (Math.abs(delta) > 20) {
-      if (delta > 0) {
-        scrollToSection(currentIndex + 1);
-      } else {
-        scrollToSection(currentIndex - 1);
-      }
-    }
-  }, 50);
-
-  // Only add wheel listener for non-touch devices or desktop
-  if (!isMobile && !isTouch) {
-    window.addEventListener('wheel', handleWheel, { passive: false });
-  }
-
-  // Enhanced touch handling for mobile
-  let touchMoveY = 0;
-  let touchMoveX = 0;
-  let touchDistance = 0;
-  let touchVelocity = 0;
-  let isCarouselTouch = false;
-
-  // Touch start
-  const handleTouchStart = (e) => {
-    touchStartY = e.touches[0].clientY;
-    touchStartX = e.touches[0].clientX;
-    touchStartTime = Date.now();
-    touchMoveY = touchStartY;
-    touchMoveX = touchStartX;
-    touchDistance = 0;
-    touchVelocity = 0;
-    
-    // Check if touch started on carousel
-    isCarouselTouch = carousel && carousel.contains(e.target);
-  };
-
-  // Touch move with throttling
-  const handleTouchMove = throttle((e) => {
-    if (isScrolling) return;
-    
-    const currentY = e.touches[0].clientY;
-    const currentX = e.touches[0].clientX;
-    const deltaY = touchStartY - currentY;
-    const deltaX = touchStartX - currentX;
-    const currentTime = Date.now();
-    
-    touchMoveY = currentY;
-    touchMoveX = currentX;
-    touchDistance = deltaY;
-    
-    // Calculate velocity (pixels per millisecond)
-    const timeDelta = currentTime - touchStartTime;
-    if (timeDelta > 0) {
-      touchVelocity = Math.abs(deltaY) / timeDelta;
-    }
-
-    // Handle carousel horizontal scrolling
-    if (isCarouselTouch && Math.abs(deltaX) > Math.abs(deltaY)) {
-      return; // Let carousel handle horizontal scrolling
-    }
-
-    // Prevent default scrolling for vertical gestures outside carousel
-    if (!isCarouselTouch && Math.abs(deltaY) > 10) {
+  // Simplified wheel handler
+  let wheelTimeout;
+  const handleWheel = (e) => {
+    if (isScrolling || isTouchScrolling) {
       e.preventDefault();
-      isTouchScrolling = true;
-    }
-  }, 16); // ~60fps
-
-  // Touch end with improved gesture detection
-  const handleTouchEnd = (e) => {
-    if (isScrolling || isCarouselTouch) {
-      isCarouselTouch = false;
       return;
     }
     
-    const endTime = Date.now();
-    const totalTime = endTime - touchStartTime;
-    const finalDistance = touchDistance;
+    // Clear previous timeout
+    clearTimeout(wheelTimeout);
     
-    // Minimum thresholds
-    const minDistance = 30;
-    const minVelocity = 0.1; // pixels per millisecond
-    const maxTime = 500; // milliseconds
+    const delta = e.deltaY;
+    const threshold = 50; // Increased threshold for better control
     
-    // Enhanced gesture detection
-    const isValidSwipe = Math.abs(finalDistance) > minDistance && 
-                        totalTime < maxTime && 
-                        touchVelocity > minVelocity;
-    
-    if (isValidSwipe) {
-      isTouchScrolling = true;
+    if (Math.abs(delta) > threshold) {
+      e.preventDefault();
       
-      if (finalDistance > 0) {
-        // Swipe up - next section
-        scrollToSection(currentIndex + 1);
-      } else {
-        // Swipe down - previous section
-        scrollToSection(currentIndex - 1);
-      }
-    } else {
-      // Reset state for small movements
-      setTimeout(() => {
-        isTouchScrolling = false;
-      }, 100);
+      wheelTimeout = setTimeout(() => {
+        if (delta > 0) {
+          scrollToSection(currentIndex + 1);
+        } else {
+          scrollToSection(currentIndex - 1);
+        }
+      }, 50);
     }
-    
-    isCarouselTouch = false;
   };
 
-  // Add touch event listeners
+  // Only add wheel listener for desktop
+  if (!isMobile && !isTouch) {
+    // Use passive: false only when necessary
+    window.addEventListener('wheel', handleWheel, { 
+      passive: false,
+      capture: false 
+    });
+  }
+
+  // Simplified touch handling
+  let touchData = {
+    startY: 0,
+    startX: 0,
+    startTime: 0,
+    currentY: 0,
+    currentX: 0,
+    isCarouselTouch: false,
+    isVerticalSwipe: false
+  };
+
+  const handleTouchStart = (e) => {
+    const touch = e.touches[0];
+    touchData.startY = touch.clientY;
+    touchData.startX = touch.clientX;
+    touchData.startTime = Date.now();
+    touchData.currentY = touch.clientY;
+    touchData.currentX = touch.clientX;
+    touchData.isCarouselTouch = carousel && carousel.contains(e.target);
+    touchData.isVerticalSwipe = false;
+  };
+
+  const handleTouchMove = rafThrottle((e) => {
+    if (isScrolling) return;
+    
+    const touch = e.touches[0];
+    touchData.currentY = touch.clientY;
+    touchData.currentX = touch.clientX;
+    
+    const deltaY = touchData.startY - touchData.currentY;
+    const deltaX = touchData.startX - touchData.currentX;
+    
+    // Determine swipe direction early
+    if (Math.abs(deltaY) > 20 || Math.abs(deltaX) > 20) {
+      touchData.isVerticalSwipe = Math.abs(deltaY) > Math.abs(deltaX);
+      
+      // Prevent default only for vertical swipes outside carousel
+      if (touchData.isVerticalSwipe && !touchData.isCarouselTouch) {
+        e.preventDefault();
+        isTouchScrolling = true;
+      }
+    }
+  });
+
+  const handleTouchEnd = (e) => {
+    if (isScrolling || touchData.isCarouselTouch) {
+      touchData.isCarouselTouch = false;
+      return;
+    }
+    
+    const deltaY = touchData.startY - touchData.currentY;
+    const deltaTime = Date.now() - touchData.startTime;
+    const velocity = Math.abs(deltaY) / deltaTime;
+    
+    // Simplified swipe detection
+    const minDistance = 50;
+    const minVelocity = 0.3;
+    const maxTime = 400;
+    
+    const isValidSwipe = Math.abs(deltaY) > minDistance && 
+                        deltaTime < maxTime && 
+                        velocity > minVelocity &&
+                        touchData.isVerticalSwipe;
+    
+    if (isValidSwipe) {
+      if (deltaY > 0) {
+        scrollToSection(currentIndex + 1);
+      } else {
+        scrollToSection(currentIndex - 1);
+      }
+    }
+    
+    // Reset touch data
+    setTimeout(() => {
+      isTouchScrolling = false;
+      touchData.isCarouselTouch = false;
+    }, 100);
+  };
+
+  // Add touch listeners with better passive handling
   if (isTouch || isMobile) {
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: false });
@@ -224,108 +245,98 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Scroll arrow click
+  // Scroll arrow with RAF
   scrollArrow?.addEventListener('click', () => {
     const pointSection = document.getElementById('point');
     if (!pointSection) return;
     
     const pointIndex = sections.indexOf(pointSection);
     if (pointIndex !== -1) {
-      scrollToSection(pointIndex, true);
-    }
-  });
-
-  // Enhanced carousel arrows with touch feedback
-  leftArrow?.addEventListener('click', () => {
-    if (carousel) {
-      carousel.scrollBy({ 
-        left: -220, 
-        behavior: 'smooth' 
+      requestAnimationFrame(() => {
+        scrollToSection(pointIndex, true);
       });
-      
-      // Add haptic feedback for mobile
-      if (navigator.vibrate && isMobile) {
-        navigator.vibrate(50);
-      }
     }
   });
 
-  rightArrow?.addEventListener('click', () => {
-    if (carousel) {
+  // Optimized carousel arrows
+  const scrollCarousel = (direction) => {
+    if (!carousel) return;
+    
+    requestAnimationFrame(() => {
       carousel.scrollBy({ 
-        left: 220, 
-        behavior: 'smooth' 
+        left: direction * 220, 
+        behavior: prefersReducedMotion ? 'auto' : 'smooth'
       });
-      
-      // Add haptic feedback for mobile
-      if (navigator.vibrate && isMobile) {
-        navigator.vibrate(50);
-      }
-    }
-  });
-
-  // Enhanced carousel touch scrolling
-  if (carousel && (isTouch || isMobile)) {
-    let carouselTouchStartX = 0;
-    let carouselTouchStartY = 0;
-    let isCarouselScrolling = false;
-
-    carousel.addEventListener('touchstart', (e) => {
-      carouselTouchStartX = e.touches[0].clientX;
-      carouselTouchStartY = e.touches[0].clientY;
-      isCarouselScrolling = false;
-    }, { passive: true });
-
-    carousel.addEventListener('touchmove', (e) => {
-      const deltaX = carouselTouchStartX - e.touches[0].clientX;
-      const deltaY = carouselTouchStartY - e.touches[0].clientY;
-      
-      // If horizontal movement is greater, handle carousel scrolling
-      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
-        isCarouselScrolling = true;
-        // Let default carousel scrolling handle this
-      }
-    }, { passive: true });
-
-    carousel.addEventListener('touchend', () => {
-      setTimeout(() => {
-        isCarouselScrolling = false;
-      }, 100);
-    }, { passive: true });
-  }
-
-  // Modal image functionality with touch improvements
-  document.querySelectorAll('.project-image').forEach(img => {
-    img.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (modalImg && modal) {
-        modalImg.src = img.src;
-        modalImg.alt = img.alt || '';
-        modal.classList.add('show');
-        
-        // Prevent body scrolling when modal is open
-        document.body.style.overflow = 'hidden';
-      }
     });
-  });
-
-  // Close modal functionality
-  const closeModal = () => {
-    if (modal) {
-      modal.classList.remove('show');
-      document.body.style.overflow = 'auto';
+    
+    // Haptic feedback
+    if (navigator.vibrate && isMobile) {
+      navigator.vibrate(30);
     }
   };
 
-  closeBtn?.addEventListener('click', closeModal);
-  
-  modal?.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      closeModal();
-    }
+  leftArrow?.addEventListener('click', () => scrollCarousel(-1));
+  rightArrow?.addEventListener('click', () => scrollCarousel(1));
+
+  // Simplified carousel touch handling
+  if (carousel && (isTouch || isMobile)) {
+    let carouselStart = { x: 0, y: 0 };
+    let isCarouselActive = false;
+
+    carousel.addEventListener('touchstart', (e) => {
+      const touch = e.touches[0];
+      carouselStart.x = touch.clientX;
+      carouselStart.y = touch.clientY;
+      isCarouselActive = false;
+    }, { passive: true });
+
+    carousel.addEventListener('touchmove', (e) => {
+      const touch = e.touches[0];
+      const deltaX = Math.abs(carouselStart.x - touch.clientX);
+      const deltaY = Math.abs(carouselStart.y - touch.clientY);
+      
+      if (deltaX > deltaY && deltaX > 10) {
+        isCarouselActive = true;
+      }
+    }, { passive: true });
+  }
+
+  // Optimized modal functionality
+  const showModal = (imgSrc, imgAlt = '') => {
+    if (!modalImg || !modal) return;
+    
+    requestAnimationFrame(() => {
+      modalImg.src = imgSrc;
+      modalImg.alt = imgAlt;
+      modal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    });
+  };
+
+  const closeModal = () => {
+    if (!modal) return;
+    
+    requestAnimationFrame(() => {
+      modal.classList.remove('show');
+      document.body.style.overflow = 'auto';
+    });
+  };
+
+  // Modal image clicks
+  document.querySelectorAll('.project-image').forEach(img => {
+    img.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showModal(img.src, img.alt);
+    });
   });
 
-  // Close modal on escape key (desktop)
+  // Modal close events
+  closeBtn?.addEventListener('click', closeModal);
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // Escape key for desktop
   if (!isMobile) {
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modal?.classList.contains('show')) {
@@ -334,58 +345,78 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Handle orientation changes on mobile
+  // Handle orientation changes efficiently
   if (isMobile) {
+    let orientationTimeout;
+    
     window.addEventListener('orientationchange', () => {
-      setTimeout(() => {
-        // Recalculate current section after orientation change
+      clearTimeout(orientationTimeout);
+      orientationTimeout = setTimeout(() => {
         const currentSection = sections[currentIndex];
         if (currentSection) {
-          currentSection.scrollIntoView({ 
-            behavior: 'auto',
-            block: 'start'
+          requestAnimationFrame(() => {
+            currentSection.scrollIntoView({ 
+              behavior: 'auto',
+              block: 'start'
+            });
           });
         }
-      }, 500);
+      }, 300);
     });
   }
 
-  // Prevent elastic scrolling on iOS
-  document.addEventListener('touchmove', (e) => {
-    if (e.touches.length === 1) {
-      const touch = e.touches[0];
-      const target = document.elementFromPoint(touch.clientX, touch.clientY);
-      
-      // Allow scrolling within carousel
-      if (carousel && carousel.contains(target)) {
-        return;
-      }
-      
-      // Prevent other elastic scrolling
-      if (!target?.closest('.contact-form')) {
-        e.preventDefault();
-      }
-    }
-  }, { passive: false });
-
-  // Add visual feedback for touch interactions
+  // Minimal touch feedback with RAF
   if (isMobile || isTouch) {
     const addTouchFeedback = (element) => {
       if (!element) return;
       
+      let feedbackFrame;
+      
       element.addEventListener('touchstart', () => {
-        element.style.transform = 'scale(0.98)';
-        element.style.opacity = '0.8';
-      });
+        if (feedbackFrame) cancelAnimationFrame(feedbackFrame);
+        feedbackFrame = requestAnimationFrame(() => {
+          element.style.transform = 'scale(0.98)';
+          element.style.opacity = '0.9';
+        });
+      }, { passive: true });
       
       element.addEventListener('touchend', () => {
-        element.style.transform = 'scale(1)';
-        element.style.opacity = '1';
-      });
+        if (feedbackFrame) cancelAnimationFrame(feedbackFrame);
+        feedbackFrame = requestAnimationFrame(() => {
+          element.style.transform = 'scale(1)';
+          element.style.opacity = '1';
+        });
+      }, { passive: true });
     };
 
-    // Add feedback to interactive elements
+    // Add feedback to key interactive elements only
     [scrollArrow, leftArrow, rightArrow].forEach(addTouchFeedback);
-    document.querySelectorAll('.project-card').forEach(addTouchFeedback);
+  }
+
+  // Intersection Observer cleanup on page unload
+  window.addEventListener('beforeunload', () => {
+    observer.disconnect();
+    if (animationFrame) {
+      cancelAnimationFrame(animationFrame);
+    }
+  });
+
+  // Performance monitoring (optional - remove in production)
+  if (typeof window !== 'undefined' && window.performance) {
+    let scrollStartTime;
+    
+    window.addEventListener('scroll', () => {
+      if (!scrollStartTime) {
+        scrollStartTime = performance.now();
+      }
+    }, { passive: true });
+    
+    window.addEventListener('scrollend', () => {
+      if (scrollStartTime) {
+        const scrollDuration = performance.now() - scrollStartTime;
+        // Log performance if needed
+        scrollStartTime = null;
+      }
+    }, { passive: true });
   }
 });

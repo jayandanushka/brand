@@ -562,10 +562,6 @@ body {
     justify-content: center;
   }
   
-<<<<<<< HEAD
-  .cards-container {
-    gap: 1rem;
-=======
   /* Packages Section */
 .packages-section {
   background-color: #fff;
@@ -610,7 +606,6 @@ body {
   .project-card {
     min-width: 70vw;
     height: 70vw;
->>>>>>> c95119a741f26cbeb54e23ac9dd5ad52bc2ee11a
   }
   
   .card {

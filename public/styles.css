@@ -449,6 +449,13 @@ body {
 .close:hover {
   color: #bbb;
 }
+
+@keyframes fall {
+    0% { transform: translateY(-10px); }
+    100% { transform: translateY(100vh); }
+}
+
+
 /* ===== RESPONSIVE MEDIA QUERIES - 3 BREAKPOINTS ===== */
 
 

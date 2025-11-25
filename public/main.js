@@ -420,3 +420,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 });
+document.addEventListener("DOMContentLoaded", function () {
+    const snowContainer = document.createElement("div");
+    snowContainer.style.position = "fixed";
+    snowContainer.style.top = 0;
+    snowContainer.style.left = 0;
+    snowContainer.style.width = "100%";
+    snowContainer.style.height = "100%";
+    snowContainer.style.pointerEvents = "none";
+    snowContainer.style.overflow = "hidden";
+    snowContainer.style.zIndex = 9999;
+    document.body.appendChild(snowContainer);
+
+    function createSnow() {
+        const snow = document.createElement("div");
+        snow.innerHTML = "❄";
+        snow.style.position = "absolute";
+        snow.style.color = "white";
+        snow.style.fontSize = Math.random() * 10 + 10 + "px";
+        snow.style.left = Math.random() * window.innerWidth + "px";
+        snow.style.opacity = Math.random();
+        snow.style.animation = `fall ${Math.random() * 3 + 3}s linear infinite`;
+        snowContainer.appendChild(snow);
+
+        setTimeout(() => snow.remove(), 6000);
+    }
+
+    setInterval(createSnow, 100);
+});

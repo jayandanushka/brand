@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
   "hosting": {
     "public": "public",
@@ -15,15 +14,3 @@
     ]
   }
 }
-=======
-  {
-    "hosting": {
-      "public": "public",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ]
-    }
-  }
->>>>>>> 2c2eb8dd5b2627daae9ba8a77ea28b5560382b4d

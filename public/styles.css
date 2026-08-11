@@ -33,7 +33,7 @@ body {
 
 /* Home Section */
 .home {
-  background-color: white;
+  background-color: #ffffff;
   color: #1e1e1e;
   flex-direction: column;
 }
@@ -71,6 +71,7 @@ body {
   animation: bounce 1.5s infinite;
   cursor: pointer;
   transition: transform 0.3s ease;
+  will-change: transform;
 }
 
 .arrow:hover {
@@ -86,7 +87,6 @@ body {
 .point-section {
   background-color: #000;
   color: #fff;
-
   text-align: left;
 }
 
@@ -131,37 +131,40 @@ body {
   scroll-behavior: smooth;
   padding-bottom: 4rem;
   padding-top: 7rem;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
 
 .projects-carousel::-webkit-scrollbar {
-  display: none; /* Chrome, Safari */
+  display: none;
 }
+
 .project-card {
   min-width: 400px;
   height: 400px;
   flex-shrink: 0;
-  background-color: white;
+  background-color: #ffffff;
   border-radius: 20px;
   display: flex;
-  flex-direction: column; /* stack image and text vertically */
+  flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* align items to the top */
+  justify-content: flex-start;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden; /* prevent overflow of image */
+  will-change: transform, box-shadow;
+  overflow: hidden;
 }
 
 .project-image {
-  width: 100%;      /* full width of card */
-  height: 90%;      /* take 70% of card height */
-  object-fit: cover; /* crop/scale image nicely */
+  width: 100%;
+  height: 80%;
+  object-fit: cover;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+  cursor: pointer;
 }
 
 .project-text {
-  height: 20%;       /* remaining height */
+  height: 20%;
   width: 100%;
   padding: 10px 20px;
   font-weight: 600;
@@ -172,7 +175,6 @@ body {
   justify-content: center;
   text-align: center;
 }
-
 
 .project-card:hover {
   transform: translateY(-5px);
@@ -191,7 +193,7 @@ body {
   cursor: pointer;
   user-select: none;
   opacity: 0.2;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .carousel-arrow:hover {
@@ -213,6 +215,7 @@ body {
   line-height: 2;
   color: #ddd;
 }
+
 /* Packages Section */
 .packages-section {
   background-color: #fff;
@@ -232,13 +235,13 @@ body {
   width: 100%;
 }
 
-/* Individual Card */
 .card {
   background-color: #ffffff;
   border-radius: 16px;
   padding: 2rem;
   box-shadow: 0 10px 25px rgba(0,0,0,0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, box-shadow;
 }
 
 .card:hover {
@@ -266,14 +269,13 @@ body {
   color: #000;
 }
 
-
 /* Contact Section */
 .contact-section {
   background-color: #fff;
   color: #000;
   display: flex;
-  justify-content: center;         /* center content horizontally */
-  align-items: center;             /* center content vertically */
+  justify-content: center;
+  align-items: center;
   flex-direction: row;
   flex-wrap: wrap;
   height: 100vh;
@@ -285,29 +287,26 @@ body {
   flex-direction: row;
   align-items: center; 
   gap: 2rem;
-  max-width: 960px;                /* control total width */
+  max-width: 960px;
   width: 100%;
   justify-content: space-between;
 }
 
-
-/* Left Side (Text + Icons + Info) */
 .contact-left {
   flex: 1;
   min-width: 280px;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  align-items: flex-start; /* Align everything to the left */
-  text-align: left;        /* Ensure text is aligned left */
+  align-items: flex-start;
+  text-align: left;
 }
-
 
 .message-me {
   font-size: 3rem;
   font-weight: 600;
   color: #000;
-  line-height: 1.2  ; /* or try 1.1, 1.2 if it's too tight */
+  line-height: 1.2;
 }
 
 .message-me strong {
@@ -315,11 +314,9 @@ body {
   font-weight: 600;
   color: #000;
   display: block;
-  margin-top: -0.5rem; /* decrease space after <br> */
+  margin-top: -0.5rem;
 }
 
-
-/* Social Icons */
 .social-icons {
   display: flex;
   gap: 1.5rem;
@@ -335,7 +332,6 @@ body {
   opacity: 0.6;
 }
 
-/* Contact Info */
 .contact-info p {
   font-size: 1rem;
   text-align: left;
@@ -343,27 +339,23 @@ body {
   line-height: 1.6;
 }
 
-/* Right Side (Form) */
 .contact-right {
   flex: 1;
   min-width: 300px;
-  max-width: 480px; /* ✅ Set a max width */
+  max-width: 480px;
   background-color: #fff;
-  padding: 2rem 2rem; /* Optional: tighten padding */
+  padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   margin-left: auto;
   margin-right: auto;
 }
 
-
-/* Contact Form */
 .contact-form {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
-
 
 .contact-form input,
 .contact-form textarea {
@@ -384,7 +376,6 @@ body {
   border-color: #000;
 }
 
-/* Submit Button */
 .contact-form button {
   background-color: #000;
   color: #fff;
@@ -400,21 +391,21 @@ body {
 .contact-form button:hover {
   background-color: #333;
 }
+
 .modal {
-  display: flex; /* keep flex for centering */
+  display: flex;
   align-items: center;
   justify-content: center;
-  
   position: fixed;
   top: 0; left: 0;
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.8);
-  
   opacity: 0;
-  pointer-events: none;       /* ignore clicks when hidden */
-  transform: scale(1.1);      /* slightly zoomed out */
+  pointer-events: none;
+  transform: scale(1.1);
   transition: opacity 0.3s ease, transform 0.3s ease;
+  will-change: opacity, transform;
   z-index: 1000;
 }
 
@@ -424,17 +415,13 @@ body {
   transform: scale(1);
 }
 
-/* Modal content image */
 .modal-content {
   max-width: 90%;
   max-height: 80vh;
   border-radius: 10px;
   box-shadow: 0 15px 30px rgba(0,0,0,0.5);
-  transition: transform 0.3s ease;
 }
 
-
-/* Close button */
 .close {
   position: absolute;
   top: 20px;
@@ -450,347 +437,71 @@ body {
   color: #bbb;
 }
 
-@keyframes fall {
-    0% { transform: translateY(-10px); }
-    100% { transform: translateY(100vh); }
-}
-
-
-/* ===== RESPONSIVE MEDIA QUERIES - 3 BREAKPOINTS ===== */
-
-
-/* ===== Laptop (1024px - 1439px) ===== */
+/* RESPONSIVE BREAKPOINTS */
 @media (min-width: 1024px) and (max-width: 1439px) {
-  /* Typography */
-  .intro-text {
-    font-size: 1.9rem;
-  }
-
-  .point-content {
-    font-size: 2.2rem;
-  }
-
-  
-.projects-header h2 {
-  font-size: 2.25rem;
-  font-weight: 600;
-  margin-top: 2rem;
-  margin-left: 2.5rem;
+  .intro-text { font-size: 1.9rem; }
+  .point-content { font-size: 2.2rem; }
+  .projects-header h2 { font-size: 2.25rem; margin-top: 2rem; margin-left: 2.5rem; }
+  .projects-carousel { padding-top: 2rem; padding-bottom: 3.5rem; }
+  .project-text { font-size: 1.1rem; }
+  .message-me { font-size: 2.5rem; }
+  .message-me strong { font-size: 4.2rem; }
+  .hire-title { font-size: 2.2rem; }
+  .hire-description { font-size: 1.15rem; }
+  .card-heading { font-size: 1.4rem; }
+  .card-details { font-size: 0.95rem; }
+  .card-price { font-size: 1.2rem; }
+  .project-card { min-width: 360px; height: 360px; }
 }
 
-  .projects-carousel {
-    padding-top: 2rem;  /* less space above cards */
-    padding-bottom: 3.5rem;
-  }
-  
-
-  .project-text {
-    font-size: 1.1rem;
-  }
-
-  .message-me {
-    font-size: 2.5rem;
-  }
-
-  .message-me strong {
-    font-size: 4.2rem;
-  }
-
-  .hire-title {
-    font-size: 2.2rem;
-  }
-
-  .hire-description {
-    font-size: 1.15rem;
-  }
-
-  .card-heading {
-    font-size: 1.4rem;
-  }
-
-  .card-details {
-    font-size: 0.95rem;
-  }
-
-  .card-price {
-    font-size: 1.2rem;
-  }
-
-  /* Project Card Resizing */
-  .project-card {
-    min-width: 360px;
-    height: 360px;
-  }
-
-}
-
-/* Tablet (768px - 1023px) */
 @media (max-width: 1023px) and (min-width: 768px) {
-  /* Font Size Reductions */
-  .intro-text {
-    font-size: 1.7rem;
-  }
-  
-  .point-content {
-    font-size: 2rem;
-  }
-  
-  .projects-header h2 {
-    font-size: 2rem;
-  }
-  
-  .project-text {
-    font-size: 1rem;
-  }
-  
-  .message-me {
-    font-size: 2.2rem;
-  }
-  
-  .message-me strong {
-    font-size: 3.8rem;
-  }
-  
-  .hire-title {
-    font-size: 2rem;
-  }
-  
-  .hire-description {
-    font-size: 1.1rem;
-  }
-  
-  .card-heading {
-    font-size: 1.3rem;
-  }
-  
-  .card-details {
-    font-size: 0.9rem;
-  }
-  
-  .card-price {
-    font-size: 1.1rem;
-  }
-  
-  /* Card Size Reductions */
-  .project-card {
-    min-width: 320px;
-    height: 320px;
-  }
-  
-  .cards-container {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
-  
-  .card {
-    padding: 1.5rem;
-  }
+  .intro-text { font-size: 1.7rem; }
+  .point-content { font-size: 2rem; }
+  .projects-header h2 { font-size: 2rem; }
+  .project-text { font-size: 1rem; }
+  .message-me { font-size: 2.2rem; }
+  .message-me strong { font-size: 3.8rem; }
+  .hire-title { font-size: 2rem; }
+  .hire-description { font-size: 1.1rem; }
+  .card-heading { font-size: 1.3rem; }
+  .card-details { font-size: 0.9rem; }
+  .card-price { font-size: 1.1rem; }
+  .project-card { min-width: 320px; height: 320px; }
+  .cards-container { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .card { padding: 1.5rem; }
 }
 
- 
-/* Small Mobile (320px - 479px) */
 @media (max-width: 479px) {
-  /* Font Size Reductions */
-  /* Text Elements */
-.intro-text {
-  font-size: 1.8rem;
-}
-
-.logo {
-  width: 140px;
-}
-
-.location {
-  font-size: 0.95rem;
-}
-
-  
-  .point-content {
-    font-size: 1.5rem;
-  }
-
-  
-.projects-section {
-  background-color: #ffffff;
-  color: #1e1e1e;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 2rem;
-}
-
-.projects-header h2 {
-  font-size: 2rem;
-  font-weight: 600;
-  margin-top: 1.5rem;
-  margin-left: 2rem;
-}
-
-.project-image {
-  width: 100%;      /* full width of card */
-  height: 80%;      /* take 70% of card height */
-}
-
-.project-text {
-  height: 20%;       /* remaining height */
-  font-size: 1rem;
-}
-
-.carousel-controls {
-  gap: 2rem;
-  margin-top: 1rem; 
-}
-
-.carousel-arrow {
-  font-size: 2rem;
-}
-
-  .message-me {
-    font-size: 1.5rem;
-  }
-  
-  .message-me strong {
-    font-size: 2.5rem;
-  }
-  
-  .hire-title {
-    font-size: 1.5rem;
-  }
-  
-  .hire-description {
-    font-size: 0.9rem;
-  }
-  
-  /* Packages Section */
-.packages-section {
-  background-color: #fff;
-  color: #111;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
-  flex-direction: column;
-}
-
-.cards-container {
-
-  gap: 1rem;
-}
-
-/* Individual Card */
-.card {
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 1rem;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.card-heading {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.card-details {
-  font-size: 0.75rem;
-  line-height: 1.25;
-  margin-bottom: 0.5rem;
-}
-
-.card-price {
-  font-size: 1rem;
-}
-  
-  /* Card Size Reductions */
-  .project-card {
-    min-width: 275px;
-    height: 275px;
-  }
-  
- /* Contact Section */
-.contact-section {
-  background: #fff;
-  color: #000;
-  padding: 2rem 1.25rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-/* Wrapper */
-.contact-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  width: 100%;
-  max-width: 500px;
-}
-
-/* Left Side */
-.contact-left {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 1rem;
-}
-
-.message-me {
-  font-size: 2rem;
-  font-weight: 600;
-  line-height: 1;
-}
-
-.message-me strong {
-  font-size: 2rem;
-  margin-top: 0.5rem;
-  display: block;
-}
-
-/* Social Icons */
-.social-icons {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  font-size: 2rem;
-}
-
-/* Contact Info */
-.contact-info p {
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
-/* Right Side */
-.contact-right {
-  padding: 2rem;
-  width: 100%;
-  max-width: 480px;
-}
-
-/* Form */
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.contact-form input,
-.contact-form textarea {
-  width: 100%;
-  padding: 0.85rem 1rem;
-}
-.contact-form textarea {
-  height: 80px;
-  resize: vertical; /* or none, or both */
-}
-
-
-.contact-form button {
-  padding: 0.85rem 1.25rem;
-  font-size: 1rem;
-}
-
-
+  .intro-text { font-size: 1.8rem; }
+  .logo { width: 140px; }
+  .location { font-size: 0.95rem; }
+  .point-content { font-size: 1.5rem; }
+  .projects-section { gap: 2rem; }
+  .projects-header h2 { font-size: 2rem; margin-top: 1.5rem; margin-left: 2rem; }
+  .project-image { width: 100%; height: 80%; }
+  .project-text { height: 20%; font-size: 1rem; }
+  .carousel-controls { gap: 2rem; margin-top: 1rem; }
+  .carousel-arrow { font-size: 2rem; }
+  .message-me { font-size: 1.5rem; }
+  .message-me strong { font-size: 2.5rem; }
+  .hire-title { font-size: 1.5rem; }
+  .hire-description { font-size: 0.9rem; }
+  .packages-section { padding: 4rem 2rem; }
+  .cards-container { gap: 1rem; }
+  .card { padding: 1rem; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05); }
+  .card-heading { font-size: 1rem; margin-bottom: 0.5rem; }
+  .card-details { font-size: 0.75rem; line-height: 1.25; margin-bottom: 0.5rem; }
+  .card-price { font-size: 1rem; }
+  .project-card { min-width: 275px; height: 275px; }
+  .contact-section { padding: 2rem 1.25rem; flex-direction: column; }
+  .contact-wrapper { flex-direction: column; gap: 2rem; max-width: 500px; }
+  .contact-left { align-items: center; text-align: center; gap: 1rem; }
+  .message-me { font-size: 2rem; line-height: 1; }
+  .message-me strong { font-size: 2rem; margin-top: 0.5rem; }
+  .social-icons { justify-content: center; gap: 1.5rem; font-size: 2rem; }
+  .contact-info p { font-size: 1rem; line-height: 1.6; }
+  .contact-right { padding: 2rem; width: 100%; max-width: 480px; }
+  .contact-form { gap: 1.25rem; }
+  .contact-form textarea { height: 80px; resize: vertical; }
+  .contact-form button { padding: 0.85rem 1.25rem; font-size: 1rem; }
 }
